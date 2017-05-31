@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -32,11 +33,11 @@ public class Magazyn extends Application {
         Button btn1 = new Button();
         Button btn2 = new Button();
    
-        btn1.setText("Click to go to the first scene");
-        btn2.setText("Click to go to the second scene");
+        btn1.setText("first scene");
+        btn2.setText("second scene");
         
-        StackPane root = new StackPane();
-        StackPane root2 = new StackPane();
+        Pane root = new Pane();
+        Pane root2 = new Pane();
     
         Scene scene1 = new Scene(root, 1000, 600);
         Scene scene2 = new Scene(root2, 1000, 600);
@@ -44,8 +45,13 @@ public class Magazyn extends Application {
         btn1.setOnAction(e-> ButtonClicked(e, theStage, btn1, btn2, scene1, scene2));
         btn2.setOnAction(e-> ButtonClicked(e, theStage, btn1, btn2, scene1, scene2));
         
+        btn1.setLayoutX(0); btn1.setLayoutY(0);
+        btn2.setLayoutX(0); btn2.setLayoutY(500);
+        
         root.getChildren().add(btn1);
         root2.getChildren().add(btn2);
+        
+         
         
         primaryStage.setTitle("Magazyn Bona");
         primaryStage.setScene(scene1);
