@@ -15,6 +15,8 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
@@ -43,7 +45,6 @@ public class Magazyn extends Application {
         Menu menu4 = new Menu("Panel");
         //Magazyn
         MenuItem underMenu1 = new MenuItem("Sprawdź aktualny stan magazynu");
-        
         menu1.getItems().addAll(underMenu1);
         
         //Produkcja
@@ -64,74 +65,61 @@ public class Magazyn extends Application {
         menu4.getItems().addAll(underMenu5, underMenu6);
         
         
-        MenuBar menuBar1 = new MenuBar();
-        MenuBar menuBar2 = new MenuBar();
-        MenuBar menuBar3 = new MenuBar();
-        MenuBar menuBar4 = new MenuBar();
+        MenuBar menuBar = new MenuBar();
+
         
-        menuBar1.getMenus().addAll(menu1, menu2, menu3, menu4);
-        menuBar2.getMenus().addAll(menu1, menu2, menu3, menu4);
-        menuBar3.getMenus().addAll(menu1, menu2, menu3, menu4);
-        menuBar4.getMenus().addAll(menu1, menu2, menu3, menu4);
+        menuBar.getMenus().addAll(menu1, menu2, menu3, menu4);
+
         
         //Przyciski
         Button btn1 = new Button();
         Button btn2 = new Button();
-        Button btn3 = new Button();
-        Button btn4 = new Button();
+       // Button btn3 = new Button();
+       // Button btn4 = new Button();
         
         btn1.setText("1 scene");
         btn2.setText("2 scene");
-        btn3.setText("3 scene");
-        btn4.setText("4 scene");
+      //  btn3.setText("3 scene");
+       // btn4.setText("4 scene");
         
-        Pane root1 = new Pane();
-        Pane root2 = new Pane();
-        Pane root3 = new Pane();
-        Pane root4 = new Pane();
+        BorderPane root = new BorderPane();
+        
+        AnchorPane pane1 = new AnchorPane();
+        AnchorPane pane2 = new AnchorPane();
+        
+        underMenu1.setOnAction(e -> root.setCenter(pane1));
+        underMenu2.setOnAction(e -> root.setCenter(pane2));
+
     
-        Scene scene1 = new Scene(root1, 1000, 600);
-        Scene scene2 = new Scene(root2, 1000, 600);
-        Scene scene3 = new Scene(root3, 1000, 600);
-        Scene scene4 = new Scene(root4, 1000, 600);
-        
+        Scene scene = new Scene(root, 1000, 600);
+
         //btn1.setOnAction(e-> ButtonClicked(e, primaryStage, btn1, btn2, scene1, scene2));
-       // btn2.setOnAction(e-> ButtonClicked(e, primaryStage, btn1, btn2, scene1, scene2));
-
-        underMenu1.setOnAction(e-> MenuClicked(e, theStage, scene1));
+       
+        //underMenu1.setOnAction(e-> MenuClicked(e, theStage, scene));
         
-        underMenu2.setOnAction(e-> MenuClicked(e, theStage, scene2));
-        underMenu3.setOnAction(e-> MenuClicked(e, theStage, scene2));
-        
-        underMenu4.setOnAction(e-> MenuClicked(e, theStage, scene3));
-        
-        underMenu5.setOnAction(e-> MenuClicked(e, theStage, scene4));
-        underMenu6.setOnAction(e-> MenuClicked(e, theStage, scene4));
-
+   
         btn1.setLayoutX(400); 
         btn1.setLayoutY(200);
         
         btn2.setLayoutX(400); 
         btn2.setLayoutY(200);
         
-        btn3.setLayoutX(400); 
-        btn3.setLayoutY(200);
+       // btn3.setLayoutX(400); 
+       // btn3.setLayoutY(200);
         
-        btn4.setLayoutX(400); 
-        btn4.setLayoutY(200);
+       // btn4.setLayoutX(400); 
+       // btn4.setLayoutY(200);
         
-        root1.getChildren().add(btn1);
-        root2.getChildren().add(btn2);
-        root3.getChildren().add(btn3);
-        root4.getChildren().add(btn4);
-       
-        root1.getChildren().add(menuBar1);
-        root2.getChildren().add(menuBar2);
-        root3.getChildren().add(menuBar3);
-        root4.getChildren().add(menuBar4);
+        pane1.getChildren().add(btn1);
+        pane2.getChildren().add(btn2);
+
+        
+        root.setTop(menuBar);
+        root.setCenter(pane1);
+        
         
         primaryStage.setTitle("Magazyn Bona");
-        primaryStage.setScene(scene1);
+        primaryStage.setScene(scene);
         primaryStage.show();
         
     }
