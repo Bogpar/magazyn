@@ -9,10 +9,13 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.Pane;
@@ -36,9 +39,34 @@ public class Magazyn extends Application {
     public static void MenuClicked(ActionEvent e, Stage theStage, Scene scene) {
                 theStage.setScene(scene);
     }
+    
+    public void addProductsForm(AnchorPane pane4) {
+        //Nazwa produktu
+        Label productNameTitle = new Label("Nazwa produktu");
+        productNameTitle.setLayoutX(50);
+        productNameTitle.setLayoutY(55);
+        pane4.getChildren().add(productNameTitle);
+        
+        TextField productNameField = new TextField();
+        productNameField.setLayoutX(160);
+        productNameField.setLayoutY(50);
+        pane4.getChildren().add(productNameField);
+        
+        //Ilość
+        Label amountNameTitle = new Label("Ilość");
+        amountNameTitle.setLayoutX(50);
+        amountNameTitle.setLayoutY(105);
+        pane4.getChildren().add(amountNameTitle);
+        
+        TextField amountNameField = new TextField();
+        amountNameField.setLayoutX(160);
+        amountNameField.setLayoutY(100);
+        pane4.getChildren().add(amountNameField);
+    }
 
     @Override
     public void start(Stage primaryStage) {
+        Magazyn magazyn = new Magazyn();
         Stage theStage = primaryStage;
         Menu menu1 = new Menu("Magazyn");
         Menu menu2 = new Menu("Produkcja");
@@ -72,16 +100,7 @@ public class Magazyn extends Application {
         menuBar.getMenus().addAll(menu1, menu2, menu3, menu4);
 
         
-        //Przyciski
-        Button btn1 = new Button();
-        Button btn2 = new Button();
-        //Button btn3 = new Button();
-        //Button btn4 = new Button();
         
-        btn1.setText("1 scene");
-        btn2.setText("2 scene");
-        //btn3.setText("3 scene");
-        //btn4.setText("4 scene");
         
         BorderPane root = new BorderPane();
         
@@ -107,17 +126,8 @@ public class Magazyn extends Application {
         //underMenu1.setOnAction(e-> MenuClicked(e, theStage, scene));
         
    
-        btn1.setLayoutX(400); 
-        btn1.setLayoutY(200);
         
-        btn2.setLayoutX(400); 
-        btn2.setLayoutY(200);
-        
-       // btn3.setLayoutX(400); 
-       // btn3.setLayoutY(200);
-        
-       // btn4.setLayoutX(400); 
-       // btn4.setLayoutY(200);
+
         Text magazynTitle = new Text (10, 20, "Magazyn zasobów");
         pane1.getChildren().add(magazynTitle);
         Text productionTitle = new Text (10, 20, "Produkcja");
@@ -128,11 +138,23 @@ public class Magazyn extends Application {
         pane4.getChildren().add(adminSiteTitle);
         
         
+        //Przyciski
+        Button btn1 = new Button();
+        Button btn2 = new Button();
+        
+        btn1.setText("1 scene");
+        btn2.setText("2 scene");
+        
+        btn1.setLayoutX(400); 
+        btn1.setLayoutY(200);
+        
+        btn2.setLayoutX(400); 
+        btn2.setLayoutY(200);
+        
         pane1.getChildren().add(btn1);
         pane2.getChildren().add(btn2);
         
-        
-
+        magazyn.addProductsForm(pane4);
         
         root.setTop(menuBar);
         root.setCenter(pane1);
