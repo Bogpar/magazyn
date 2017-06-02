@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.text.Text;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.BorderPane;
@@ -74,21 +75,29 @@ public class Magazyn extends Application {
         //Przyciski
         Button btn1 = new Button();
         Button btn2 = new Button();
-       // Button btn3 = new Button();
-       // Button btn4 = new Button();
+        //Button btn3 = new Button();
+        //Button btn4 = new Button();
         
         btn1.setText("1 scene");
         btn2.setText("2 scene");
-      //  btn3.setText("3 scene");
-       // btn4.setText("4 scene");
+        //btn3.setText("3 scene");
+        //btn4.setText("4 scene");
         
         BorderPane root = new BorderPane();
         
         AnchorPane pane1 = new AnchorPane();
         AnchorPane pane2 = new AnchorPane();
+        AnchorPane pane3 = new AnchorPane();
+        AnchorPane pane4 = new AnchorPane();
+        
         
         underMenu1.setOnAction(e -> root.setCenter(pane1));
         underMenu2.setOnAction(e -> root.setCenter(pane2));
+        underMenu3.setOnAction(e -> root.setCenter(pane2));
+        underMenu4.setOnAction(e -> root.setCenter(pane3));
+        underMenu5.setOnAction(e -> root.setCenter(pane4));
+        underMenu6.setOnAction(e -> root.setCenter(pane4));
+        
 
     
         Scene scene = new Scene(root, 1000, 600);
@@ -109,9 +118,20 @@ public class Magazyn extends Application {
         
        // btn4.setLayoutX(400); 
        // btn4.setLayoutY(200);
+        Text magazynTitle = new Text (10, 20, "Magazyn zasobów");
+        pane1.getChildren().add(magazynTitle);
+        Text productionTitle = new Text (10, 20, "Produkcja");
+        pane2.getChildren().add(productionTitle);
+        Text paymentTitle = new Text (10, 20, "Płatności i koszty");
+        pane3.getChildren().add(paymentTitle);
+        Text adminSiteTitle = new Text (10, 20, "Panel Administracyjny");
+        pane4.getChildren().add(adminSiteTitle);
+        
         
         pane1.getChildren().add(btn1);
         pane2.getChildren().add(btn2);
+        
+        
 
         
         root.setTop(menuBar);
