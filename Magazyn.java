@@ -28,7 +28,6 @@ import javafx.stage.Stage;
  * @author ubuntu
  */
 public class Magazyn extends Application {
-    
    /* public static void ButtonClicked(ActionEvent e, Stage theStage, Button btn1, Button btn2, Scene scene1, Scene scene2) {
             if (e.getSource() == btn2)
                 theStage.setScene(scene1);
@@ -36,13 +35,10 @@ public class Magazyn extends Application {
                 theStage.setScene(scene2);
     }*/
     
-    public static void MenuClicked(ActionEvent e, Stage theStage, Scene scene) {
-                theStage.setScene(scene);
-    }
-    
     public void addProductsForm(AnchorPane pane4) {
+        Magazyn magazyn = new Magazyn();
         //Nazwa produktu
-        Label productNameTitle = new Label("Nazwa produktu");
+        Label productNameTitle = new Label("Rodzaj");
         productNameTitle.setLayoutX(50);
         productNameTitle.setLayoutY(55);
         pane4.getChildren().add(productNameTitle);
@@ -53,17 +49,60 @@ public class Magazyn extends Application {
         pane4.getChildren().add(productNameField);
         
         //Ilość
-        Label amountNameTitle = new Label("Ilość");
-        amountNameTitle.setLayoutX(50);
-        amountNameTitle.setLayoutY(105);
-        pane4.getChildren().add(amountNameTitle);
+        Label sizeNameTitle = new Label("Rozmiar");
+        sizeNameTitle.setLayoutX(50);
+        sizeNameTitle.setLayoutY(105);
+        pane4.getChildren().add(sizeNameTitle);
         
-        TextField amountNameField = new TextField();
-        amountNameField.setLayoutX(160);
-        amountNameField.setLayoutY(100);
-        pane4.getChildren().add(amountNameField);
-    }
+        TextField sizeNameField = new TextField();
+        sizeNameField.setLayoutX(160);
+        sizeNameField.setLayoutY(100);
+        pane4.getChildren().add(sizeNameField);
+        
+        //Cena
+        Label priceNameTitle = new Label("Cena za m2");
+        priceNameTitle.setLayoutX(50);
+        priceNameTitle.setLayoutY(155);
+        pane4.getChildren().add(priceNameTitle);
+        
+        TextField priceNameField = new TextField();
+        priceNameField.setLayoutX(160);
+        priceNameField.setLayoutY(150);
+        pane4.getChildren().add(priceNameField);
+        
+        Button submit = new Button();
+        submit.setLayoutX(160);
+        submit.setLayoutY(200);
+        submit.setText("Zatwierdź");
+        pane4.getChildren().add(submit);
+        
+        Button clear = new Button();
+        clear.setLayoutX(250);
+        clear.setLayoutY(200);
+        clear.setText("Reset");
+        pane4.getChildren().add(clear);
+        
+        submit.setOnAction(e-> magazyn.submitTheForm(e, productNameField, sizeNameField, priceNameField));
+        clear.setOnAction(e-> magazyn.clearTheForm(e, productNameField, sizeNameField, priceNameField));
+        
 
+    }
+    
+    public void submitTheForm(ActionEvent e, TextField productNameField, TextField sizeNameField, TextField priceNameField) {
+        if(productNameField.getText().trim().equals("") && sizeNameField.getText().trim().equals("") && priceNameField.getText().trim().equals("")) {
+            //tworzymy obiekt
+        } else {
+            //lipa
+        }
+    
+    }
+    
+    public void clearTheForm(ActionEvent e, TextField productNameField, TextField sizeNameField, TextField priceNameField) {
+        productNameField.setText("");
+        sizeNameField.setText("");
+        priceNameField.setText("");
+    }
+    
     @Override
     public void start(Stage primaryStage) {
         Magazyn magazyn = new Magazyn();
@@ -88,7 +127,7 @@ public class Magazyn extends Application {
         menu3.getItems().addAll(underMenu4);
         
         //Panel
-        MenuItem underMenu5 = new MenuItem("Dodaj do magazynu");
+        MenuItem underMenu5 = new MenuItem("Dodaj materiał do magazynu");
         MenuItem underMenu6 = new MenuItem("Usuń z magazynu");
         
         menu4.getItems().addAll(underMenu5, underMenu6);
