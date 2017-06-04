@@ -27,5 +27,8 @@ public class Product {
     public double getPrice() {
         return this.price;
     }
+    public void addSize(int arg) {
+        this.size += arg;
+    }
     
 }
