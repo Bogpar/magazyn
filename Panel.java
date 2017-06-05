@@ -61,6 +61,36 @@ public class Panel {
 
     }
     
+    public void removeProductsPage(AnchorPane pane) {
+        Panel panel = new Panel();
+        Label productIdTitle = new Label("Id");
+        productIdTitle.setLayoutX(50);
+        productIdTitle.setLayoutY(55);
+        pane.getChildren().add(productIdTitle);
+        
+        TextField idField = new TextField();
+        idField.setLayoutX(160);
+        idField.setLayoutY(50);
+        pane.getChildren().add(idField);
+        
+        Button submit = new Button();
+        submit.setLayoutX(160);
+        submit.setLayoutY(200);
+        submit.setText("Zatwierdź");
+        pane.getChildren().add(submit);
+        
+        submit.setOnAction(e-> panel.deleteTheProduct(e, idField));
+        
+        
+    }
+    public void deleteTheProduct(ActionEvent e, TextField idField) {
+        if(idField.getText().trim().equals("") && doThisIdExist(Integer.parseInt(idField.getText())) ) {
+            System.out.println("Blad usuniecia konta o numerze " + idField.getText());
+        } else {
+            products.remove(Integer.parseInt(idField.getText()));
+        }
+    }
+    
     public void submitTheForm(ActionEvent e, TextField productNameField, TextField sizeNameField, TextField priceNameField) {
         if(productNameField.getText().trim().equals("") && sizeNameField.getText().trim().equals("") && priceNameField.getText().trim().equals("")) {
             System.out.println("Błąd");

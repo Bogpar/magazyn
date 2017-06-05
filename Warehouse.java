@@ -68,13 +68,14 @@ public class Warehouse extends Application {
         AnchorPane pane2 = new AnchorPane();
         AnchorPane pane3 = new AnchorPane();
         AnchorPane pane4 = new AnchorPane();
+        AnchorPane pane5 = new AnchorPane();
         
         underMenu1.setOnAction(e -> root.setCenter(pane1));
         underMenu2.setOnAction(e -> root.setCenter(pane2));
         underMenu3.setOnAction(e -> root.setCenter(pane2));
         underMenu4.setOnAction(e -> root.setCenter(pane3));
         underMenu5.setOnAction(e -> root.setCenter(pane4));
-        underMenu6.setOnAction(e -> root.setCenter(pane4));
+        underMenu6.setOnAction(e -> root.setCenter(pane5));
     
     //Setup pages  
         Scene scene = new Scene(root, 1000, 600);
@@ -93,6 +94,7 @@ public class Warehouse extends Application {
         
         Panel panel = new Panel();
         panel.addProductsPage(pane4); //Panel administratora
+        panel.removeProductsPage(pane5);
         
         root.setTop(menuBar);
         root.setCenter(pane1);

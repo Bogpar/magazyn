@@ -1,4 +1,4 @@
-package magazyn;
+    package magazyn;
 
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -31,6 +31,6 @@ public class Overview {
                 new PropertyValueFactory<Product, String>("price"));
        table.setItems(products);
        table.getColumns().addAll(idCol, typeCol, sizeCol, priceCol);
-        pane.getChildren().add(table);
+       pane.getChildren().add(table);
     }
 }
