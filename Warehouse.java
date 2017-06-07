@@ -24,7 +24,7 @@ import javafx.stage.Stage;
 
 public class Warehouse extends Application {
     static ObservableList<Product> products = FXCollections.observableArrayList(
-            new Product(0,"weqwe",12312,123)
+            new Product(0,"weqwe",140,1000,123)
     );
 
     @Override

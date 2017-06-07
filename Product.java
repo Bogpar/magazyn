@@ -4,15 +4,19 @@ package magazyn;
 public class Product {
     int id;
     String type;
-    int size;
+    int width;
+    int height;
+    double size;
     double price;
    
     Product() {}
     
-    Product(int id, String type, int size, double price) {
+    Product(int id, String type, int width, int height, double price) {
         this.id = id;
         this.type = type;
-        this.size = size;
+        this.width = width;
+        this.height = height;
+        this.size = width*height/100;
         this.price = price;
     }
     public int getId() {
@@ -21,7 +25,13 @@ public class Product {
     public String getType() {
         return this.type;
     }
-    public int getSize() {
+    public int getWidth() {
+        return this.width;
+    }
+    public int getHeight() {
+        return this.height;
+    }
+    public double getSize() {
         return this.size;
     }
     public double getPrice() {
