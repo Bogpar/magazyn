@@ -93,7 +93,7 @@ public class Warehouse extends Application {
         overview.setOfProductsPage(pane1); //Magazyn rozpiska
         
         Panel panel = new Panel();
-        panel.addProductsPage(pane4); //Panel administratora
+        panel.addProductsPage(pane4, theStage); //Panel administratora
         panel.removeProductsPage(pane5);
         
         root.setTop(menuBar);

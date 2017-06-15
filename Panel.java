@@ -1,14 +1,20 @@
 package magazyn;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import static magazyn.Warehouse.products;
 
 public class Panel {
-    public void addProductsPage(AnchorPane pane) {
+    public void addProductsPage(AnchorPane pane, Stage stage) {
         Panel panel = new Panel();
         //Nazwa produktu
         Label productNameTitle = new Label("Rodzaj");
@@ -65,9 +71,38 @@ public class Panel {
         clear.setText("Reset");
         pane.getChildren().add(clear);
         
-        submit.setOnAction(e-> panel.submitTheForm(e, productNameField, widthNameField, heightNameField, priceNameField));
-        clear.setOnAction(e-> panel.clearTheForm(e, productNameField, widthNameField, heightNameField, priceNameField));
         
+        clear.setOnAction(e-> panel.clearTheForm(e, productNameField, widthNameField, heightNameField, priceNameField));
+
+        submit.setOnAction(
+            new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    Handler handler = new Handler(stage);
+                    
+                    handler.btn2.setOnAction(
+                        new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent event) {
+                                handler.dialog.close();
+                            }
+                    });
+                    
+                    if(productNameField.getText().trim().equals("") || widthNameField.getText().trim().equals("") || heightNameField.getText().trim().equals("") || priceNameField.getText().trim().equals("")) {
+                        handler.errorHandler("Nie wypełniłeś któregoś z pól");
+                    } else { 
+                        handler.btn.setOnAction(
+                        new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent event) {
+                                panel.submitTheForm(productNameField, widthNameField, heightNameField, priceNameField); 
+                                handler.dialog.close();
+                            }
+                        });
+                        handler.permisionHandler();
+                    }
+            }
+         });
     }
     
     public void removeProductsPage(AnchorPane pane) {
@@ -88,10 +123,10 @@ public class Panel {
         submit.setText("Zatwierdź");
         pane.getChildren().add(submit);
         
-        submit.setOnAction(e-> panel.deleteTheProduct(e, idField));
+        submit.setOnAction(e-> panel.deleteTheProduct(idField));
         
     }
-    public void deleteTheProduct(ActionEvent e, TextField idField) {
+    public void deleteTheProduct(TextField idField) {
         if(idField.getText().trim().equals("") && doThisIdExist(Integer.parseInt(idField.getText())) ) {
             System.out.println("Blad usuniecia konta o numerze " + idField.getText());
         } else {
@@ -99,7 +134,7 @@ public class Panel {
         }
     }
     
-    public void submitTheForm(ActionEvent e, TextField productNameField, TextField widthNameField, TextField heightNameField, TextField priceNameField) {
+    public void submitTheForm(TextField productNameField, TextField widthNameField, TextField heightNameField, TextField priceNameField) {
         if(productNameField.getText().trim().equals("") || widthNameField.getText().trim().equals("") || heightNameField.getText().trim().equals("") || priceNameField.getText().trim().equals("")) {
             System.out.println("Błąd");
         } else {
