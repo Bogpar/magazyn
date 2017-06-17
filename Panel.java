@@ -1,16 +1,20 @@
 package magazyn;
 
+import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 import static magazyn.Warehouse.products;
 
 public class Panel {
@@ -28,80 +32,57 @@ public class Panel {
         pane.getChildren().add(productNameField);
         
         //Ilość
-        Label widthNameTitle = new Label("Szerokość w cm");
-        widthNameTitle.setLayoutX(50);
-        widthNameTitle.setLayoutY(105);
-        pane.getChildren().add(widthNameTitle);
+        Label sizeNameTitle = new Label("Szerokość w cm");
+        sizeNameTitle.setLayoutX(50);
+        sizeNameTitle.setLayoutY(105);
+        pane.getChildren().add(sizeNameTitle);
         
-        TextField widthNameField = new TextField();
-        widthNameField.setLayoutX(160);
-        widthNameField.setLayoutY(100);
-        pane.getChildren().add(widthNameField);
-        
-        Label heightNameTitle = new Label("Wysokość w cm");
-        heightNameTitle.setLayoutX(50);
-        heightNameTitle.setLayoutY(155);
-        pane.getChildren().add(heightNameTitle);
-        
-        TextField heightNameField = new TextField();
-        heightNameField.setLayoutX(160);
-        heightNameField.setLayoutY(150);
-        pane.getChildren().add(heightNameField);
+        TextField sizeNameField = new TextField();
+        sizeNameField.setLayoutX(160);
+        sizeNameField.setLayoutY(100);
+        pane.getChildren().add(sizeNameField);
         
         //Cena
         Label priceNameTitle = new Label("Cena za \u33A1");
         priceNameTitle.setLayoutX(50);
-        priceNameTitle.setLayoutY(205);
+        priceNameTitle.setLayoutY(155);
         pane.getChildren().add(priceNameTitle);
         
         TextField priceNameField = new TextField();
         priceNameField.setLayoutX(160);
-        priceNameField.setLayoutY(200);
+        priceNameField.setLayoutY(150);
         pane.getChildren().add(priceNameField);
         
         Button submit = new Button();
         submit.setLayoutX(160);
-        submit.setLayoutY(250);
+        submit.setLayoutY(200);
         submit.setText("Zatwierdź");
         pane.getChildren().add(submit);
         
         Button clear = new Button();
         clear.setLayoutX(250);
-        clear.setLayoutY(250);
+        clear.setLayoutY(200);
         clear.setText("Reset");
         pane.getChildren().add(clear);
         
         
-        clear.setOnAction(e-> panel.clearTheForm(e, productNameField, widthNameField, heightNameField, priceNameField));
+        clear.setOnAction(e-> panel.clearTheForm(e, productNameField, sizeNameField, priceNameField));
 
         submit.setOnAction(
             new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    Handler handler = new Handler(stage);
-                    
-                    handler.btn2.setOnAction(
-                        new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent event) {
-                                handler.dialog.close();
-                            }
-                    });
-                    
-                    if(productNameField.getText().trim().equals("") || widthNameField.getText().trim().equals("") || heightNameField.getText().trim().equals("") || priceNameField.getText().trim().equals("")) {
-                        handler.errorHandler("Nie wypełniłeś któregoś z pól");
-                    } else { 
-                        handler.btn.setOnAction(
-                        new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent event) {
-                                panel.submitTheForm(productNameField, widthNameField, heightNameField, priceNameField); 
-                                handler.dialog.close();
-                            }
-                        });
-                        handler.permisionHandler();
+
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setTitle("Dodaj produkt");
+                        alert.setHeaderText("Czy jesteś pewien że chcesz dodać ten produkt do magazynu?");
+                        
+                        Optional <ButtonType> result = alert.showAndWait();
+                        if (result.get() == ButtonType.OK){
+                           panel.submitTheForm(productNameField, sizeNameField, priceNameField); 
+                        } 
                     }
-            }
+           // }
          });
     }
     
@@ -124,8 +105,8 @@ public class Panel {
         pane.getChildren().add(submit);
         
         submit.setOnAction(e-> panel.deleteTheProduct(idField));
-        
     }
+    
     public void deleteTheProduct(TextField idField) {
         if(idField.getText().trim().equals("") && doThisIdExist(Integer.parseInt(idField.getText())) ) {
             System.out.println("Blad usuniecia konta o numerze " + idField.getText());
@@ -134,26 +115,25 @@ public class Panel {
         }
     }
     
-    public void submitTheForm(TextField productNameField, TextField widthNameField, TextField heightNameField, TextField priceNameField) {
-        if(productNameField.getText().trim().equals("") || widthNameField.getText().trim().equals("") || heightNameField.getText().trim().equals("") || priceNameField.getText().trim().equals("")) {
-            System.out.println("Błąd");
+    public void submitTheForm(TextField productNameField, TextField sizeNameField, TextField priceNameField) {
+        if(productNameField.getText().trim().equals("") || sizeNameField.getText().trim().equals("") || priceNameField.getText().trim().equals("")) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Błąd przy dodawaniu konta");
+            alert.setHeaderText("Upewnij się, że wypełniłeś poprawnie formularz");
+            alert.showAndWait();
         } else {
             Convert convert = new Convert();
-            System.out.println(products.size());
-
-            if(!doThisProductExist(productNameField.getText(), convert.convertToInt(widthNameField.getText()), convert.convertToInt(heightNameField.getText()), convert.convertToDouble(priceNameField.getText()))) {
-                products.add(new Product(generateProductIdNumber(products.size()),productNameField.getText(), convert.convertToInt(widthNameField.getText()), convert.convertToInt(heightNameField.getText()), convert.convertToDouble(priceNameField.getText())));
-                System.out.println(products.get(products.size()-1).getType());
-                System.out.println(products.size());
+            if(!doThisProductExist(productNameField.getText(), convert.convertToInt(sizeNameField.getText()), convert.convertToDouble(priceNameField.getText()))) {
+                products.add(new Product(generateProductIdNumber(products.size()),productNameField.getText(), convert.convertToInt(sizeNameField.getText()), convert.convertToDouble(priceNameField.getText())));
             }
         }
     }
-    private boolean doThisProductExist(String productName, int width, int height, double price) {
+    private boolean doThisProductExist(String productName, int size, double price) {
         boolean toReturn = false;
         for(int i = 0; i < products.size(); i++) {
-            if(products.get(i).getType().equals(productName) && products.get(i).getWidth() == width && products.get(i).getPrice() == price) {
+            if(products.get(i).getType().equals(productName) && products.get(i).getPrice() == price) {
                 toReturn = true;
-                products.get(i).addSize(width*height/100);
+                products.get(i).addSize(size);
             } 
         }
         return toReturn;
@@ -175,10 +155,9 @@ public class Panel {
         return false;
     }
     
-    public void clearTheForm(ActionEvent e, TextField productNameField, TextField widthNameField, TextField heightNameField, TextField priceNameField) {
+    public void clearTheForm(ActionEvent e, TextField productNameField, TextField sizeNameField, TextField priceNameField) {
         productNameField.setText("");
-        widthNameField.setText("");
-        heightNameField.setText("");
+        sizeNameField.setText("");
         priceNameField.setText("");
     }
 }

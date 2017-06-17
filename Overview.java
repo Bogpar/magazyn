@@ -21,14 +21,6 @@ public class Overview {
        typeCol.setMinWidth(180);
        typeCol.setCellValueFactory(
                 new PropertyValueFactory<Product, String>("type"));
-       TableColumn widthCol = new TableColumn("Szerokość (cm)");
-       widthCol.setMinWidth(180);
-       widthCol.setCellValueFactory(
-                new PropertyValueFactory<Product, String>("width"));
-       TableColumn heightCol = new TableColumn("Wysokość (cm)");
-       heightCol.setMinWidth(180);
-       heightCol.setCellValueFactory(
-                new PropertyValueFactory<Product, String>("height"));
        TableColumn sizeCol = new TableColumn("Rozmiar (\u33A1)");
        sizeCol.setMinWidth(180);
        sizeCol.setCellValueFactory(
@@ -38,7 +30,7 @@ public class Overview {
        priceCol.setCellValueFactory(
                 new PropertyValueFactory<Product, String>("price"));
        table.setItems(products);
-       table.getColumns().addAll(idCol, typeCol, widthCol, heightCol, sizeCol, priceCol);
+       table.getColumns().addAll(idCol, typeCol, sizeCol, priceCol);
        pane.getChildren().add(table);
     }
 }
