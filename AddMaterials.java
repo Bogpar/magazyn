@@ -17,9 +17,9 @@ import javafx.stage.Stage;
 
 import static magazyn.Warehouse.products;
 
-public class Panel {
+public class AddMaterials {
     public void addProductsPage(AnchorPane pane, Stage stage) {
-        Panel panel = new Panel();
+        AddMaterials panel = new AddMaterials();
         //Nazwa produktu
         Label productNameTitle = new Label("Rodzaj");
         productNameTitle.setLayoutX(50);
@@ -32,7 +32,7 @@ public class Panel {
         pane.getChildren().add(productNameField);
         
         //Ilość
-        Label sizeNameTitle = new Label("Szerokość w cm");
+        Label sizeNameTitle = new Label("Rozmiar w \u33A1");
         sizeNameTitle.setLayoutX(50);
         sizeNameTitle.setLayoutY(105);
         pane.getChildren().add(sizeNameTitle);
@@ -72,22 +72,27 @@ public class Panel {
             new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
+                        if(productNameField.getText().trim().equals("") || sizeNameField.getText().trim().equals("") || priceNameField.getText().trim().equals("")) {
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("Błąd przy dodawaniu konta");
+                            alert.setHeaderText("Upewnij się, że wypełniłeś poprawnie formularz");
+                            alert.showAndWait();
+                        } else {
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("Dodaj produkt");
+                            alert.setHeaderText("Czy jesteś pewien że chcesz dodać ten produkt do magazynu?");
 
-                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                        alert.setTitle("Dodaj produkt");
-                        alert.setHeaderText("Czy jesteś pewien że chcesz dodać ten produkt do magazynu?");
-                        
-                        Optional <ButtonType> result = alert.showAndWait();
-                        if (result.get() == ButtonType.OK){
-                           panel.submitTheForm(productNameField, sizeNameField, priceNameField); 
-                        } 
-                    }
-           // }
+                            Optional <ButtonType> result = alert.showAndWait();
+                            if (result.get() == ButtonType.OK) {
+                               panel.submitTheForm(productNameField, sizeNameField, priceNameField); 
+                            }
+                        }
+                }
          });
     }
     
     public void removeProductsPage(AnchorPane pane) {
-        Panel panel = new Panel();
+        AddMaterials panel = new AddMaterials();
         Label productIdTitle = new Label("Id");
         productIdTitle.setLayoutX(50);
         productIdTitle.setLayoutY(55);
@@ -116,19 +121,12 @@ public class Panel {
     }
     
     public void submitTheForm(TextField productNameField, TextField sizeNameField, TextField priceNameField) {
-        if(productNameField.getText().trim().equals("") || sizeNameField.getText().trim().equals("") || priceNameField.getText().trim().equals("")) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Błąd przy dodawaniu konta");
-            alert.setHeaderText("Upewnij się, że wypełniłeś poprawnie formularz");
-            alert.showAndWait();
-        } else {
-            Convert convert = new Convert();
-            if(!doThisProductExist(productNameField.getText(), convert.convertToInt(sizeNameField.getText()), convert.convertToDouble(priceNameField.getText()))) {
-                products.add(new Product(generateProductIdNumber(products.size()),productNameField.getText(), convert.convertToInt(sizeNameField.getText()), convert.convertToDouble(priceNameField.getText())));
-            }
-        }
+        Convert convert = new Convert();
+        if(!doThisProductExist(productNameField.getText(), convert.convertToInt(sizeNameField.getText()), convert.convertToDouble(priceNameField.getText()))) {
+            products.add(new Product(generateProductIdNumber(products.size()),productNameField.getText(), convert.convertToDouble(sizeNameField.getText()), convert.convertToDouble(priceNameField.getText())));
+        } 
     }
-    private boolean doThisProductExist(String productName, int size, double price) {
+    private boolean doThisProductExist(String productName, double size, double price) {
         boolean toReturn = false;
         for(int i = 0; i < products.size(); i++) {
             if(products.get(i).getType().equals(productName) && products.get(i).getPrice() == price) {
@@ -155,7 +153,7 @@ public class Panel {
         return false;
     }
     
-    public void clearTheForm(ActionEvent e, TextField productNameField, TextField sizeNameField, TextField priceNameField) {
+    void clearTheForm(ActionEvent e, TextField productNameField, TextField sizeNameField, TextField priceNameField) {
         productNameField.setText("");
         sizeNameField.setText("");
         priceNameField.setText("");

@@ -1,17 +1,18 @@
 package magazyn;
 
-
-public class Product {
+public class OtherProduct {
     int id;
     String type;
-    double size;
+    String uom;
+    int size;
     double price;
    
-    Product() {}
+    OtherProduct() {}
     
-    Product(int id, String type, double size, double price) {
+    OtherProduct(int id, String type, String uom, int size, double price) {
         this.id = id;
         this.type = type;
+        this.uom = uom;
         this.size = size;
         this.price = price;
     }
@@ -21,14 +22,16 @@ public class Product {
     public String getType() {
         return this.type;
     }
+    public String getUom() {
+        return this.uom;
+    }
     public double getSize() {
         return this.size;
     }
     public double getPrice() {
         return this.price;
     }
-    public void addSize(double arg) {
+    public void addSize(int arg) {
         this.size += arg;
     }
-    
 }

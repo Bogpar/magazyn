@@ -26,6 +26,7 @@ public class Warehouse extends Application {
     static ObservableList<Product> products = FXCollections.observableArrayList(
             new Product(0,"weqwe",100,123)
     );
+    static ObservableList<OtherProduct> otherProducts = FXCollections.observableArrayList();
 
     @Override
     public void start(Stage primaryStage) {
@@ -49,14 +50,14 @@ public class Warehouse extends Application {
         
         //Płatności
         MenuItem underMenu4 = new MenuItem("Sprawdź płatności");
-        
         menu3.getItems().addAll(underMenu4);
         
         //Panel
         MenuItem underMenu5 = new MenuItem("Dodaj materiał do magazynu");
-        MenuItem underMenu6 = new MenuItem("Usuń z magazynu");
+        MenuItem underMenu6 = new MenuItem("Dodaj inne do magazynu");
+        MenuItem underMenu7 = new MenuItem("Usuń z magazynu");
         
-        menu4.getItems().addAll(underMenu5, underMenu6);
+        menu4.getItems().addAll(underMenu5, underMenu6, underMenu7);
         
         MenuBar menuBar = new MenuBar();
 
@@ -69,6 +70,7 @@ public class Warehouse extends Application {
         AnchorPane pane3 = new AnchorPane();
         AnchorPane pane4 = new AnchorPane();
         AnchorPane pane5 = new AnchorPane();
+        AnchorPane pane6 = new AnchorPane();
         
         underMenu1.setOnAction(e -> root.setCenter(pane1));
         underMenu2.setOnAction(e -> root.setCenter(pane2));
@@ -76,6 +78,7 @@ public class Warehouse extends Application {
         underMenu4.setOnAction(e -> root.setCenter(pane3));
         underMenu5.setOnAction(e -> root.setCenter(pane4));
         underMenu6.setOnAction(e -> root.setCenter(pane5));
+        underMenu7.setOnAction(e -> root.setCenter(pane6));
     
     //Setup pages  
         Scene scene = new Scene(root, 1000, 600);
@@ -86,15 +89,21 @@ public class Warehouse extends Application {
         pane2.getChildren().add(productionTitle);
         Text paymentTitle = new Text (10, 20, "Płatności i koszty");
         pane3.getChildren().add(paymentTitle);
-        Text adminSiteTitle = new Text (10, 20, "Panel Administracyjny");
+        Text adminSiteTitle = new Text (10, 20, "Panel Administracyjny - dodawanie materiału");
         pane4.getChildren().add(adminSiteTitle);
+        Text adminSiteTitle2 = new Text (10, 20, "Panel Administracyjny - dodawanie inne");
+        pane5.getChildren().add(adminSiteTitle2);
         
         Overview overview = new Overview();
         overview.setOfProductsPage(pane1); //Magazyn rozpiska
         
-        Panel panel = new Panel();
+        AddMaterials panel = new AddMaterials();
         panel.addProductsPage(pane4, theStage); //Panel administratora
-        panel.removeProductsPage(pane5);
+        
+        AddOthers others = new AddOthers();
+        others.addProductsPage(pane5, theStage);
+        
+        panel.removeProductsPage(pane6);
         
         root.setTop(menuBar);
         root.setCenter(pane1);
