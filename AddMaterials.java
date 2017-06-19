@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import static magazyn.Warehouse.history;
+import static magazyn.Warehouse.otherProducts;
 
 import static magazyn.Warehouse.products;
 
@@ -109,16 +110,36 @@ public class AddMaterials {
         
         Button submit = new Button();
         submit.setLayoutX(160);
-        submit.setLayoutY(200);
+        submit.setLayoutY(100);
         submit.setText("Zatwierdź");
         pane.getChildren().add(submit);
         
-        submit.setOnAction(e-> panel.deleteTheProduct(idField));
+        submit.setOnAction(
+                new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    Convert convert = new Convert();
+                    if((products.size() > 0) && doThisIdExist(convert.convertToInt(idField.getText()))) {
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setTitle("Usuń materiał");
+                        alert.setHeaderText("Czy jesteś pewien że chcesz usunąć ten materiał z magazynu?");
+                     
+                        Optional <ButtonType> result = alert.showAndWait();
+                        if (result.get() == ButtonType.OK) {
+                           panel.deleteTheProduct(idField); 
+                        }
+                    }
+                }
+            });
     }
     
     public void deleteTheProduct(TextField idField) {
         if(idField.getText().trim().equals("") && doThisIdExist(Integer.parseInt(idField.getText())) ) {
-            System.out.println("Blad usuniecia konta o numerze " + idField.getText());
+            System.out.println("Blad usuniecia materiału o numerze " + idField.getText());
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Błąd przy próbie usunięcia materiału");
+            alert.setHeaderText("Upewnij się, że podałeś poprawne id");
+            alert.showAndWait();
         } else {
             int id = Integer.parseInt(idField.getText());
             history.add(new History("Usunięto materiał o nazwie " + products.get(id).getType() + " o rozmiarze " + products.get(id).getSize() + " \u33A1 i cenie " + products.get(id).getPrice() + " zł/\u33A1"));
@@ -126,6 +147,11 @@ public class AddMaterials {
             Database database = new Database();
             database.writeDataToProducts();
             database.writeDataToHistory();
+            
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Usunięcię materiału się powiodło");
+            alert.setHeaderText("Materiał o numerze " + id + " został poprawnie usunięty");
+            alert.showAndWait();
         }
     }
     

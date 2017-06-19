@@ -1,6 +1,7 @@
 package magazyn;
 
 import javafx.scene.control.Alert;
+import javafx.scene.control.TextField;
 
 public class Convert {
     public Convert() {}

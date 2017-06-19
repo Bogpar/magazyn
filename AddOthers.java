@@ -11,6 +11,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import static magazyn.Warehouse.history;
 
 import static magazyn.Warehouse.otherProducts;
 
@@ -118,6 +119,70 @@ public class AddOthers {
          });
     }
     
+    public void removeProductsPage(AnchorPane pane) {
+        AddOthers panel = new AddOthers();
+        Label productIdTitle = new Label("Id");
+        productIdTitle.setLayoutX(50);
+        productIdTitle.setLayoutY(55);
+        pane.getChildren().add(productIdTitle);
+        
+        TextField idField = new TextField();
+        idField.setLayoutX(160);
+        idField.setLayoutY(50);
+        pane.getChildren().add(idField);
+        
+        Button submit = new Button();
+        submit.setLayoutX(160);
+        submit.setLayoutY(100);
+        submit.setText("Zatwierdź");
+        pane.getChildren().add(submit);
+        
+        submit.setOnAction(
+                new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    Convert convert = new Convert();
+                    if((otherProducts.size() > 0) && doThisIdExist(convert.convertToInt(idField.getText()))) {
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setTitle("Usuń przedmiot");
+                        alert.setHeaderText("Czy jesteś pewien że chcesz usunąć ten przedmiot z magazynu?");
+
+                        Optional <ButtonType> result = alert.showAndWait();
+                        if (result.get() == ButtonType.OK) {
+                           panel.deleteTheProduct(idField); 
+                        }
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setTitle("Błąd przy próbie usunięcia przedmiotu");
+                        alert.setHeaderText("Brak przedmiotu w bazie danych");
+                        alert.showAndWait();
+                    }
+                }
+            });
+    }
+    
+    public void deleteTheProduct(TextField idField) {
+        if(idField.getText().trim().equals("") && doThisIdExist(Integer.parseInt(idField.getText())) ) {
+            System.out.println("Blad usuniecia konta o numerze " + idField.getText());
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Błąd przy próbie usunięcia przedmiotu");
+            alert.setHeaderText("Upewnij się, że podałeś poprawne id");
+            alert.showAndWait();
+        } else {
+            int id = Integer.parseInt(idField.getText());
+            history.add(new History("Usunięto przedmiot o nazwie " + otherProducts.get(id).getType() + " w ilości " + otherProducts.get(id).getSize() + " " + otherProducts.get(id).getUom() + " i cenie " + otherProducts.get(id).getPrice() + " zł/" + otherProducts.get(id).getUom()));
+            otherProducts.remove(id);
+            Database database = new Database();
+            database.writeDataToOtherProducts();
+            database.writeDataToHistory();
+            
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Usunięcię przedmiotu powiodło się");
+            alert.setHeaderText("Przedmiot o numerze " + id + " został poprawnie usunięty");
+            alert.showAndWait();
+        }
+    }
+    
     public void submitTheForm(TextField productNameField, CheckBox uomCheckBox, CheckBox uomCheckBox2, TextField sizeNameField, TextField priceNameField) {
         Convert convert = new Convert();
         if(!doThisProductExist(productNameField.getText(), uomCheckBox, convert.convertToInt(sizeNameField.getText()), convert.convertToDouble(priceNameField.getText()))) {
@@ -132,7 +197,7 @@ public class AddOthers {
                 Database database = new Database();
                 database.writeDataToOtherProducts();
             } else {
-                System.out.println("Blad przy dodawaniu AddOthers.java 132");
+                System.out.println("Blad przy dodawaniu AddOthers.java - submitTheForm()");
             }
         } 
     }

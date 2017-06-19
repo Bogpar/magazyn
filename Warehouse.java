@@ -52,9 +52,10 @@ public class Warehouse extends Application {
         //Panel
         MenuItem underMenu5 = new MenuItem("Dodaj materiał do magazynu");
         MenuItem underMenu6 = new MenuItem("Dodaj inne do magazynu");
-        MenuItem underMenu7 = new MenuItem("Usuń z magazynu");
+        MenuItem underMenu7 = new MenuItem("Usuń z magazynu materiał");
+        MenuItem underMenu8 = new MenuItem("Usuń z magazynu przedmiot");
         
-        menu4.getItems().addAll(underMenu5, underMenu6, underMenu7);
+        menu4.getItems().addAll(underMenu5, underMenu6, underMenu7, underMenu8);
         
         MenuBar menuBar = new MenuBar();
 
@@ -68,6 +69,7 @@ public class Warehouse extends Application {
         AnchorPane pane4 = new AnchorPane();
         AnchorPane pane5 = new AnchorPane();
         AnchorPane pane6 = new AnchorPane();
+        AnchorPane pane7 = new AnchorPane();
         
         underMenu1.setOnAction(e -> root.setCenter(pane1));
         underMenu2.setOnAction(e -> root.setCenter(pane2));
@@ -76,6 +78,7 @@ public class Warehouse extends Application {
         underMenu5.setOnAction(e -> root.setCenter(pane4));
         underMenu6.setOnAction(e -> root.setCenter(pane5));
         underMenu7.setOnAction(e -> root.setCenter(pane6));
+        underMenu8.setOnAction(e -> root.setCenter(pane7));
     
     //Setup pages  
         Scene scene = new Scene(root, 1000, 600);
@@ -90,6 +93,10 @@ public class Warehouse extends Application {
         pane4.getChildren().add(adminSiteTitle);
         Text adminSiteTitle2 = new Text (10, 20, "Panel Administracyjny - dodaj inne");
         pane5.getChildren().add(adminSiteTitle2);
+        Text adminSiteTitle3 = new Text (10, 20, "Panel Administracyjny - usuń materiał");
+        pane6.getChildren().add(adminSiteTitle3);
+        Text adminSiteTitle4 = new Text (10, 20, "Panel Administracyjny - usuń przedmiot");
+        pane7.getChildren().add(adminSiteTitle4);
         
         Overview overview = new Overview();
         overview.setOfProductsPage(pane1); //Magazyn rozpiska
@@ -104,6 +111,7 @@ public class Warehouse extends Application {
         others.addProductsPage(pane5, theStage);
         
         panel.removeProductsPage(pane6);
+        others.removeProductsPage(pane7);
         
         root.setTop(menuBar);
         root.setCenter(pane1);
