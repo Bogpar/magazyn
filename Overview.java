@@ -1,13 +1,20 @@
 package magazyn;
 
+import javafx.event.EventHandler;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.converter.DoubleStringConverter;
+import javafx.util.converter.IntegerStringConverter;
 import static magazyn.Warehouse.otherProducts;
 import static magazyn.Warehouse.products;
 
 public class Overview {
+    public Overview() {}
+    
     public void setOfProductsPage(AnchorPane pane) {
        TableView table = new TableView();
        TableView table2 = new TableView(); 
@@ -18,19 +25,52 @@ public class Overview {
        TableColumn idCol = new TableColumn("Id");
        idCol.setMinWidth(100);
        idCol.setCellValueFactory(
-                new PropertyValueFactory<Product, String>("id"));
+                new PropertyValueFactory<Product, Integer>("id"));
        TableColumn typeCol = new TableColumn("Nazwa");
        typeCol.setMinWidth(300);
        typeCol.setCellValueFactory(
                 new PropertyValueFactory<Product, String>("type"));
+       typeCol.setCellFactory(TextFieldTableCell.forTableColumn());
+       typeCol.setOnEditCommit( new EventHandler<CellEditEvent<Product, String>>() {
+            @Override
+            public void handle(CellEditEvent<Product, String> t) {
+                    ((Product) t.getTableView().getItems().get(
+                    t.getTablePosition().getRow())
+                    ).setType(t.getNewValue());
+                }
+            }
+        );
+       
        TableColumn sizeCol = new TableColumn("Rozmiar (\u33A1)");
        sizeCol.setMinWidth(300);
        sizeCol.setCellValueFactory(
-                new PropertyValueFactory<Product, String>("size"));
+                new PropertyValueFactory<Product, Double>("size"));
+       sizeCol.setCellFactory(TextFieldTableCell.<Product, Double>forTableColumn(new DoubleStringConverter()));
+       sizeCol.setOnEditCommit( new EventHandler<CellEditEvent<Product, Double>>() {
+            @Override
+            public void handle(CellEditEvent<Product, Double> t) {
+                    ((Product) t.getTableView().getItems().get(
+                    t.getTablePosition().getRow())
+                    ).setSize(t.getNewValue());
+                }
+            }
+        );
+       
        TableColumn priceCol = new TableColumn("Cena (zł/\u33A1)");
        priceCol.setMinWidth(300);
        priceCol.setCellValueFactory(
                 new PropertyValueFactory<Product, String>("price"));
+       priceCol.setCellFactory(TextFieldTableCell.<Product, Double>forTableColumn(new DoubleStringConverter()));
+       priceCol.setOnEditCommit( new EventHandler<CellEditEvent<Product, Double>>() {
+            @Override
+            public void handle(CellEditEvent<Product, Double> t) {
+                    ((Product) t.getTableView().getItems().get(
+                    t.getTablePosition().getRow())
+                    ).setPrice(t.getNewValue());
+                    
+                }
+            }
+        );
        
        table2.setEditable(true);
        table2.setMinWidth(1000);
@@ -40,23 +80,55 @@ public class Overview {
        TableColumn idC = new TableColumn("Id");
        idC.setMinWidth(100);
        idC.setCellValueFactory(
-                new PropertyValueFactory<Product, String>("id"));
+                new PropertyValueFactory<OtherProduct, Integer>("id"));
        TableColumn typeC = new TableColumn("Nazwa");
        typeC.setMinWidth(225);
        typeC.setCellValueFactory(
-                new PropertyValueFactory<Product, String>("type"));
+                new PropertyValueFactory<OtherProduct, String>("type"));
+       typeC.setCellFactory(TextFieldTableCell.forTableColumn());
+       typeC.setOnEditCommit( new EventHandler<CellEditEvent<OtherProduct, String>>() {
+            @Override
+            public void handle(CellEditEvent<OtherProduct, String> t) {
+                    ((OtherProduct) t.getTableView().getItems().get(
+                    t.getTablePosition().getRow())
+                    ).setType(t.getNewValue());
+                }
+            }
+        );
        TableColumn uomC = new TableColumn("Jednoska Miary");
        uomC.setMinWidth(225);
        uomC.setCellValueFactory(
-                new PropertyValueFactory<Product, String>("uom"));
+                new PropertyValueFactory<OtherProduct, String>("uom"));
        TableColumn amountC = new TableColumn("Ilość");
        amountC.setMinWidth(225);
        amountC.setCellValueFactory(
-                new PropertyValueFactory<Product, String>("size"));
+                new PropertyValueFactory<OtherProduct, Integer>("size"));
+       amountC.setCellFactory(TextFieldTableCell.<OtherProduct, Integer>forTableColumn(new IntegerStringConverter()));
+       amountC.setOnEditCommit( new EventHandler<CellEditEvent<OtherProduct, Integer>>() {
+            @Override
+            public void handle(CellEditEvent<OtherProduct, Integer> t) {
+                    ((OtherProduct) t.getTableView().getItems().get(
+                    t.getTablePosition().getRow())
+                    ).setSize(t.getNewValue());
+                    
+                }
+            }
+        );
        TableColumn priceC = new TableColumn("Cena");
        priceC.setMinWidth(225);
        priceC.setCellValueFactory(
-                new PropertyValueFactory<Product, String>("price"));
+                new PropertyValueFactory<OtherProduct, Double>("price"));
+       priceC.setCellFactory(TextFieldTableCell.<OtherProduct, Double>forTableColumn(new DoubleStringConverter()));
+       priceC.setOnEditCommit( new EventHandler<CellEditEvent<OtherProduct, Double>>() {
+            @Override
+            public void handle(CellEditEvent<OtherProduct, Double> t) {
+                    ((OtherProduct) t.getTableView().getItems().get(
+                    t.getTablePosition().getRow())
+                    ).setPrice(t.getNewValue());
+                    
+                }
+            }
+        );
        
        table.setItems(products);
        table2.setItems(otherProducts);

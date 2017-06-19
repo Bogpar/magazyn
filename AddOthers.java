@@ -3,7 +3,6 @@ package magazyn;
 import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -11,18 +10,18 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import static magazyn.Warehouse.otherProducts;
 
 public class AddOthers {
+    
+    public AddOthers() {}
+    
     public void addProductsPage(AnchorPane pane, Stage stage) {
         AddOthers panel = new AddOthers();
 
-        Label productNameTitle = new Label("Rodzaj");
+        Label productNameTitle = new Label("Nazwa");
         productNameTitle.setLayoutX(50);
         productNameTitle.setLayoutY(55);
         pane.getChildren().add(productNameTitle);
@@ -121,7 +120,7 @@ public class AddOthers {
     
     public void submitTheForm(TextField productNameField, CheckBox uomCheckBox, CheckBox uomCheckBox2, TextField sizeNameField, TextField priceNameField) {
         Convert convert = new Convert();
-        if(!doThisProductExist(productNameField.getText(), uomCheckBox, uomCheckBox2, convert.convertToInt(sizeNameField.getText()), convert.convertToDouble(priceNameField.getText()))) {
+        if(!doThisProductExist(productNameField.getText(), uomCheckBox, convert.convertToInt(sizeNameField.getText()), convert.convertToDouble(priceNameField.getText()))) {
             String uomName;
             if(uomCheckBox.isSelected()) {
                 uomName = "szt.";
@@ -130,12 +129,14 @@ public class AddOthers {
             }
             if(!uomName.equals("")) {
                 otherProducts.add(new OtherProduct(generateProductIdNumber(otherProducts.size()), productNameField.getText(), uomName, convert.convertToInt(sizeNameField.getText()), convert.convertToDouble(priceNameField.getText())));
+                Database database = new Database();
+                database.writeDataToOtherProducts();
             } else {
                 System.out.println("Blad przy dodawaniu AddOthers.java 132");
             }
         } 
     }
-    private boolean doThisProductExist(String productName, CheckBox uomCheckBox, CheckBox uomCheckBox2, int size, double price) {
+    private boolean doThisProductExist(String productName, CheckBox uomCheckBox, int size, double price) {
         boolean toReturn = false;
         String uomName;
         if(uomCheckBox.isSelected()) {

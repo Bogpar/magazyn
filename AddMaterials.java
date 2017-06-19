@@ -14,14 +14,18 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import static magazyn.Warehouse.history;
 
 import static magazyn.Warehouse.products;
 
 public class AddMaterials {
+    
+    public AddMaterials() {}
+    
     public void addProductsPage(AnchorPane pane, Stage stage) {
         AddMaterials panel = new AddMaterials();
         //Nazwa produktu
-        Label productNameTitle = new Label("Rodzaj");
+        Label productNameTitle = new Label("Nazwa");
         productNameTitle.setLayoutX(50);
         productNameTitle.setLayoutY(55);
         pane.getChildren().add(productNameTitle);
@@ -74,7 +78,7 @@ public class AddMaterials {
                 public void handle(ActionEvent event) {
                         if(productNameField.getText().trim().equals("") || sizeNameField.getText().trim().equals("") || priceNameField.getText().trim().equals("")) {
                             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                            alert.setTitle("Błąd przy dodawaniu konta");
+                            alert.setTitle("Błąd przy dodawaniu");
                             alert.setHeaderText("Upewnij się, że wypełniłeś poprawnie formularz");
                             alert.showAndWait();
                         } else {
@@ -116,7 +120,12 @@ public class AddMaterials {
         if(idField.getText().trim().equals("") && doThisIdExist(Integer.parseInt(idField.getText())) ) {
             System.out.println("Blad usuniecia konta o numerze " + idField.getText());
         } else {
-            products.remove(Integer.parseInt(idField.getText()));
+            int id = Integer.parseInt(idField.getText());
+            history.add(new History("Usunięto materiał o nazwie " + products.get(id).getType() + " o rozmiarze " + products.get(id).getSize() + " \u33A1 i cenie " + products.get(id).getPrice() + " zł/\u33A1"));
+            products.remove(id);
+            Database database = new Database();
+            database.writeDataToProducts();
+            database.writeDataToHistory();
         }
     }
     
@@ -124,6 +133,8 @@ public class AddMaterials {
         Convert convert = new Convert();
         if(!doThisProductExist(productNameField.getText(), convert.convertToInt(sizeNameField.getText()), convert.convertToDouble(priceNameField.getText()))) {
             products.add(new Product(generateProductIdNumber(products.size()),productNameField.getText(), convert.convertToDouble(sizeNameField.getText()), convert.convertToDouble(priceNameField.getText())));
+            Database database = new Database();
+            database.writeDataToProducts();
         } 
     }
     private boolean doThisProductExist(String productName, double size, double price) {
@@ -137,7 +148,7 @@ public class AddMaterials {
         return toReturn;
     }
     private int generateProductIdNumber(int arg) {
-        int toReturn = arg-1;
+        int toReturn = arg - 1;
             do {
                     toReturn++;
             } while(doThisIdExist(toReturn));
