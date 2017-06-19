@@ -101,6 +101,9 @@ public class Warehouse extends Application {
         Overview overview = new Overview();
         overview.setOfProductsPage(pane1); //Magazyn rozpiska
         
+        Production production = new Production();
+        production.productionPanel(pane2);
+        
         HistoryPanel historySec = new HistoryPanel();
         historySec.historyOverview(pane3);
         

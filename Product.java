@@ -3,7 +3,6 @@ package magazyn;
 import java.io.Serializable;
 import static magazyn.Warehouse.history;
 
-
 public class Product implements Serializable {
     private Integer id;
     private String type;
@@ -38,6 +37,7 @@ public class Product implements Serializable {
     public void addSize(double arg) {
         this.size += arg;
         database.writeDataToProducts();
+        
     }
     public void setType(String newType) {
         history.add(new History("Zmieniono nazwe materiału z " + this.type + " na " + newType));
@@ -48,7 +48,7 @@ public class Product implements Serializable {
     }
     public void setSize(Double newSize) {
         history.add(new History("Zmieniono rozmiar materiału o nazwie " + this.type + " z rozmiaru \u33A1" + this.size + " na rozmiar \u33A1" + newSize));
-        this.price = newSize;
+        this.size = newSize;
         database.writeDataToProducts();
         database.writeDataToHistory();
     }

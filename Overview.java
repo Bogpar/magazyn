@@ -1,6 +1,8 @@
 package magazyn;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
@@ -21,7 +23,8 @@ public class Overview {
        
        table.setEditable(true);
        table.setMinWidth(1000);
-       table.setMinHeight(300);
+       table.setMinHeight(250);
+       table.setLayoutY(50);
        TableColumn idCol = new TableColumn("Id");
        idCol.setMinWidth(100);
        idCol.setCellValueFactory(
@@ -129,6 +132,20 @@ public class Overview {
                 }
             }
         );
+       
+       Button refresh = new Button();
+       refresh.setLayoutX(300);
+       refresh.setLayoutY(15);
+       refresh.setText("Odśwież");
+       pane.getChildren().add(refresh);
+        
+       refresh.setOnAction( new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) { 
+                    table.refresh();
+                    table2.refresh();
+                }
+         });
        
        table.setItems(products);
        table2.setItems(otherProducts);
