@@ -17,12 +17,6 @@ public class Warehouse extends Application {
     static ObservableList<Product> products = FXCollections.observableArrayList();
     static ObservableList<OtherProduct> otherProducts = FXCollections.observableArrayList();
     static ObservableList<History> history = FXCollections.observableArrayList();
-    
-    ArrayList<Product> productList = new ArrayList();
-    ArrayList<Product> otherList = new ArrayList();
-    ArrayList<Product> historyList = new ArrayList();
-
-    public Warehouse() {}
    
     @Override
     public void start(Stage primaryStage) {

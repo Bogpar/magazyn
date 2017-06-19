@@ -21,7 +21,6 @@ import static magazyn.Warehouse.products;
 
 public class AddMaterials {
     
-    public AddMaterials() {}
     
     public void addProductsPage(AnchorPane pane, Stage stage) {
         AddMaterials panel = new AddMaterials();
@@ -128,6 +127,11 @@ public class AddMaterials {
                         if (result.get() == ButtonType.OK) {
                            panel.deleteTheProduct(idField); 
                         }
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setTitle("Błąd przy próbie usunięcia materiału");
+                        alert.setHeaderText("Podane id materiału nie istnieje");
+                        alert.showAndWait();
                     }
                 }
             });

@@ -11,8 +11,6 @@ public class OtherProduct implements Serializable {
     private Double price;
     
     Database database = new Database();
-   
-    public OtherProduct() {}
     
     OtherProduct(Integer id, String type, String uom, Integer size, Double price) {
         this.id = id;
@@ -53,7 +51,7 @@ public class OtherProduct implements Serializable {
         database.writeDataToHistory();
     }
     public void setSize(Integer newSize) {
-        history.add(new History("Zmieniono rozmiar przedmiotu o nazwie " + this.type + " z rozmiaru \u33A1" + this.size + " na rozmiar \u33A1" + newSize));
+        history.add(new History("Zmieniono rozmiar przedmiotu o nazwie " + this.type + " z rozmiaru " + this.size + " \u33A1 na rozmiar " + newSize + " \u33A1"));
         this.size = newSize;
         database.writeDataToOtherProducts();
         database.writeDataToHistory();

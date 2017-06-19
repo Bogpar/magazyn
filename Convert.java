@@ -4,7 +4,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
 public class Convert {
-    public Convert() {}
+    
     public Integer convertToInt(String arg) {
         Integer value = 0;
         try {	

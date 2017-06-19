@@ -14,7 +14,6 @@ import static magazyn.Warehouse.otherProducts;
 import static magazyn.Warehouse.products;
 
 public class Production {
-    public Production() {}
     
     public void productionPanel(AnchorPane pane) {
         Production panel = new Production();

@@ -15,7 +15,6 @@ import static magazyn.Warehouse.otherProducts;
 import static magazyn.Warehouse.products;
 
 public class Overview {
-    public Overview() {}
     
     public void setOfProductsPage(AnchorPane pane) {
        TableView table = new TableView();

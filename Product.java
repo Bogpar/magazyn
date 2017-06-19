@@ -10,8 +10,6 @@ public class Product implements Serializable {
     private Double price;
     
     Database database = new Database();
-   
-    public Product() {}
     
     Product(Integer id, String type, Double size, Double price) {
         this.id = id;

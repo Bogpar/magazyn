@@ -17,7 +17,6 @@ import static magazyn.Warehouse.otherProducts;
 
 public class AddOthers {
     
-    public AddOthers() {}
     
     public void addProductsPage(AnchorPane pane, Stage stage) {
         AddOthers panel = new AddOthers();
@@ -154,7 +153,7 @@ public class AddOthers {
                     } else {
                         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                         alert.setTitle("Błąd przy próbie usunięcia przedmiotu");
-                        alert.setHeaderText("Brak przedmiotu w bazie danych");
+                        alert.setHeaderText("Podane id przedmiotu nie istnieje");
                         alert.showAndWait();
                     }
                 }

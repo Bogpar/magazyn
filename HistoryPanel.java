@@ -7,7 +7,6 @@ import javafx.scene.layout.AnchorPane;
 import static magazyn.Warehouse.history;
 
 public class HistoryPanel {
-    public HistoryPanel() {}
     
     public void historyOverview(AnchorPane pane) {
        TableView table = new TableView();
